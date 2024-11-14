@@ -15,6 +15,8 @@ const useMutation = (url = '') => {
             abortController?.abort();
             setLoading(false);
             setData(null);
+            setError(null);
+
         };
     }, [abortController]);
 
@@ -48,6 +50,7 @@ const useMutation = (url = '') => {
     const reset = () => {
         setLoading(false);
         setData(null);
+        setError(null);
     };
 
     return { function: hitApi, data, loading, error, reset };
