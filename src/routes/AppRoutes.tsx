@@ -1,4 +1,4 @@
-import { Routes, Route, Outlet, Navigate } from 'react-router-dom'
+import { Routes, Route, Outlet } from 'react-router-dom'
 import Navbar from '../components/Navbar';
 import { List } from '../modules';
 
@@ -15,8 +15,7 @@ const AppRoutes = () => {
     return (
         <Routes>
             <Route element={<ListLayout />}>
-                <Route path='*' element={<Navigate to='/list' />} />
-                <Route path='list' element={<List />} />
+                <Route path='*' element={<List />} />
             </Route>
         </Routes>
     )
