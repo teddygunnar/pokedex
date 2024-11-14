@@ -54,7 +54,7 @@ const List = () => {
                 {
                     filterLoading ? (
                         <Loading />
-                    ) : usedData.length && !error && !filterError ? (
+                    ) : usedData.length && !error && !filterError && (
                         usedData.map((val, index) => (
                             <PokedexCard
                                 name={"name" in val ? val.name : val.pokemon.name}
@@ -64,9 +64,15 @@ const List = () => {
                                 handleModal={handleModal}
                             />
                         ))
-                    ) : (
+                    )
+                }
+
+                {
+                    filterError && error &&
+                    (
                         <span className="font-bold text-5xl">Failed to fetch Pokémon data</span>
                     )
+
                 }
             </div>
             {
