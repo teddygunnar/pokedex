@@ -54,7 +54,7 @@ const List = () => {
                 {
                     filterLoading ? (
                         <Loading />
-                    ) : usedData.length && !error && !filterError && (
+                    ) : usedData.length && !error && !filterError ? (
                         usedData.map((val, index) => (
                             <PokedexCard
                                 name={"name" in val ? val.name : val.pokemon.name}
@@ -64,7 +64,7 @@ const List = () => {
                                 handleModal={handleModal}
                             />
                         ))
-                    )
+                    ) : null
                 }
 
                 {
