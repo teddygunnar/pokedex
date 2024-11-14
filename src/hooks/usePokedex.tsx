@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { IPokedexRes } from '../config/_models'
 import useMutation from './useMutation';
-import axios from 'axios';
 
 type ModalContent = {
     isOpen: boolean;
     content: {
         name: string;
         pokeIndex: number;
+        url: string;
     };
 };
 
@@ -27,22 +27,21 @@ const usePokedex = () => {
         results: []
     });
     const [offset, setOffset] = useState<number>(0);
-    const [limit, setLimit] = useState<number>(20);
+    const limit: number = 20;
     const [modalContent, setModalContent] = useState<ModalContent>({
         isOpen: false,
         content: {
             name: '',
             pokeIndex: 0,
+            url: '',
         }
     })
 
     const [hasMore, setHasMore] = useState(true);
-
     const observe = useRef<IntersectionObserver | null>(null);
-
     const { data: pokedexData, error, function: getPokedex, loading, reset: resetPokedexData } = useMutation('https://pokeapi.co/api/v2/pokemon') as IUseMutation;
 
-    const handleModal = (_content: { name: string, pokeIndex: number }) => {
+    const handleModal = (_content: { name: string, pokeIndex: number, url: string }) => {
         setModalContent((prev) => ({
             ...prev,
             isOpen: !prev.isOpen,
@@ -57,6 +56,7 @@ const usePokedex = () => {
             content: {
                 name: '',
                 pokeIndex: 0,
+                url: '',
             }
         }))
     }
@@ -74,9 +74,9 @@ const usePokedex = () => {
             }
             return offset
         });
-    }, [offset]);
+    }, [getPokedex]);
 
-    const lastElementRef = useCallback((node: HTMLDivElement) => {
+    const lastElementFetch = useCallback((node: HTMLDivElement) => {
         if (loading) return;
         if (!hasMore) return;
         if (observe.current) observe.current.disconnect()
@@ -97,13 +97,22 @@ const usePokedex = () => {
         });
 
         if (node) observe.current.observe(node)
-    }, [hasMore])
+    }, [hasMore, loading, getPokedex])
+
+    const handleRefreshData = () => {
+        setOffset(20);
+        getPokedex({
+            offset: 0,
+            limit: 20,
+        })
+    }
 
     useEffect(() => {
         getPokedex({
             limit,
             offset
         })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect(() => {
@@ -117,9 +126,9 @@ const usePokedex = () => {
             }))
             resetPokedexData();
         }
-    }, [pokedexData])
+    }, [pokedexData, resetPokedexData])
 
-    return { data, error, loading, offset, modalContent, handleModal, handleCloseModal, setOffset, handleFetchMore, observe, lastElementRef }
+    return { data, error, loading, offset, modalContent, handleModal, handleCloseModal, setOffset, handleFetchMore, observe, lastElementFetch, handleRefreshData }
 }
 
 export default usePokedex
