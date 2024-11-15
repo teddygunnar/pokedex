@@ -38,3 +38,7 @@ export const statsTypography = (val: string) => {
 
   return statsTypology[val as keyof typeof statsTypology] || val;
 };
+
+export const paddedId = (id: number) => {
+  return id.toString().padStart(4, "0");
+};
