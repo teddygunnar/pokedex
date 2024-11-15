@@ -72,7 +72,7 @@ const ModalPokemon = ({ isOpen, content, handleCloseModal }: {
                                         </div>
                                     </div>
                                     <div className="flex sm:flex-col flex-row w-full gap-5 flex-s">
-                                        <div className="flex flex-col m-0 p-5 bg-blue-500 rounded-xl md:w-full h-full sm:w-full">
+                                        <div className="flex flex-col m-0 p-5 bg-blue-500 rounded-xl md:w-full h-full w-full">
                                             <div className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-5">
                                                 <div>
                                                     <p className="font-bold text-xl">Height</p>

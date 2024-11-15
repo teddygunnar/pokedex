@@ -49,7 +49,7 @@ const List = () => {
                     <li className={`px-5 cursor-pointer rounded-full black transition-all py-1 w-auto min-w-[4rem] text-center bg-black text-white`} onClick={handleReset}>Reset</li>
                 </ul>
             </div>
-            <div className="mx-36 my-10 p-10">
+            <div className="mx-10">
 
                 <ModalPokemon isOpen={isOpen} content={content} handleCloseModal={handleCloseModal} />
                 <div className="flex gap-5 flex-wrap justify-center w-full">
