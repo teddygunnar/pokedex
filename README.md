@@ -14,4 +14,4 @@ Make sure you have node v18.18.0. You can download it from the [Official Node.js
 
 - Clone the repository to your local machine.
 - run `npm install`, if you encounter depedency issues, try `npm install --legacy-peer-deps`
-- After the installation is done, run `npm run start`
+- After the installation is done, run `npm run dev`
