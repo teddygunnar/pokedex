@@ -57,9 +57,9 @@ const ModalPokemon = ({ isOpen, content, handleCloseModal }: {
                         ) : (
                             <>
                                 <span className="bg-blue-500/50 font-bold text-5xl w-full flex justify-center items-center rounded-md">{capitalize(pokemonName)}</span>
-                                <div className="flex mt-5 gap-5 justify-between">
+                                <div className="sm:flex mt-5 gap-5 justify-between w-full">
                                     <div className="rounded-xl bg-gray-600 flex flex-col justify-between">
-                                        <div className="w-full">
+                                        <div className="w-auto">
                                             <img src={sprites[pokeImage]} alt={`${pokemonName}.jpg`} width={650} loading="lazy" />
                                         </div>
                                         <div className="inline-flex w-full justify-center items-end relative">
@@ -72,7 +72,7 @@ const ModalPokemon = ({ isOpen, content, handleCloseModal }: {
                                         </div>
                                     </div>
                                     <div className="flex sm:flex-col flex-row w-full gap-5 flex-s">
-                                        <div className="flex flex-col m-0 p-5 bg-blue-500 rounded-xl md:w-full h-full w-full">
+                                        <div className="hidden sm:flex flex-col m-0 p-5 bg-blue-500 rounded-xl md:w-full h-full w-full">
                                             <div className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-5">
                                                 <div>
                                                     <p className="font-bold text-xl">Height</p>
@@ -126,6 +126,45 @@ const ModalPokemon = ({ isOpen, content, handleCloseModal }: {
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                                <div className="sm:hidden flex flex-col mt-5 m-0 p-5 bg-blue-500 rounded-xl">
+                                    <div className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-5">
+                                        <div>
+                                            <p className="font-bold text-xl">Height</p>
+                                            <span className="font-thin">{height * 10}</span><span className="font-thin">cm</span>
+                                        </div>
+                                        <div>
+                                            <p className="font-bold text-xl">Weight</p>
+                                            <span className="font-thin">{weight / 10}</span><span className="font-thin">kg</span>
+                                        </div>
+
+                                        <div>
+                                            <p className="font-bold text-xl">Base EXP</p>
+                                            <span className="font-thin">{base_experience}</span><span className="font-thin">xp</span>
+                                        </div>
+                                        <div>
+                                            <p className="font-bold text-xl">Types</p>
+                                            <ul>
+                                                {
+                                                    types.map((val, index) => (
+                                                        <li className={`font thin ${typeColor(val.type.name)} w-3/5 my-1 px-1`} key={index}>{capitalize(val.type.name)}</li>
+                                                    ))
+                                                }
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <p className="font-bold text-xl">Abilites</p>
+                                            <ul>
+                                                {
+                                                    abilities.map((val, index) => (
+                                                        <li className={`${val.is_hidden ? 'opacity-35' : ''} font-thin`} key={index}>{capitalize(val.ability.name)}</li>
+                                                    ))
+                                                }
+                                            </ul>
+                                        </div>
+
+                                    </div>
+
                                 </div>
                                 <div className="lg:hidden flex mt-5 flex-col lg:justify-center lg:items-center m-0 p-5 bg-gray-500 rounded-xl md:w-full h-auto sm:w-full">
                                     <div className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-5">
