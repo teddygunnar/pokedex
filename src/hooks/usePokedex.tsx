@@ -100,7 +100,14 @@ const usePokedex = () => {
     }, [hasMore, loading, getPokedex])
 
     const handleRefreshData = () => {
-        setOffset(20);
+        setOffset(0);
+        resetPokedexData();
+        setData({
+            count: 0,
+            next: '',
+            previous: '',
+            results: []
+        })
         getPokedex({
             offset: 0,
             limit: 20,

@@ -22,7 +22,7 @@ interface FilteredPokemonData {
 type PokemonListItem = PokemonData | FilteredPokemonData;
 
 const List = () => {
-    const { data, loading, handleModal, modalContent, handleCloseModal, lastElementFetch, handleFetchMore, error } = usePokedex();
+    const { data, loading, handleModal, modalContent, handleCloseModal, lastElementFetch, handleFetchMore, error, handleRefreshData } = usePokedex();
     const { filterData, filterError, filterLoading, isFilterActive, handleReset, setType, filterType, setIsFilterActive } = useFilter();
     const { content, isOpen } = modalContent
     const { results } = data as IPokedexRes || {}
@@ -39,6 +39,7 @@ const List = () => {
                             <li key={index} onClick={() => {
                                 if (val === filterType) {
                                     handleReset();
+                                    handleRefreshData();
                                 } else {
                                     setType(val);
                                     setIsFilterActive(true);
@@ -46,7 +47,10 @@ const List = () => {
                             }} className={`${typeColor(val)} px-5 cursor-pointer rounded-full black transition-all py-1 w-auto min-w-[8rem] text-center ${filterType === val ? 'border-blue-600 border-b-4' : ''}`}>{capitalize(val)}</li>
                         ))
                     }
-                    <li className={`px-5 cursor-pointer rounded-full black transition-all py-1 w-auto min-w-[4rem] text-center bg-black text-white`} onClick={handleReset}>Reset</li>
+                    <li className={`px-5 cursor-pointer rounded-full black transition-all py-1 w-auto min-w-[4rem] text-center bg-black text-white`} onClick={() => {
+                        handleReset();
+                        handleRefreshData();
+                    }}>Reset</li>
                 </ul>
             </div>
             <div className="mx-10">
