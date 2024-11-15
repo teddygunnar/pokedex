@@ -29,8 +29,6 @@ const useFilter = () => {
         setType('');
     }
 
-    console.log(isFilterActive)
-
     return {
         isFilterActive, setIsFilterActive, filterData, filterLoading, handleReset, setType, filterError, filterType: type, getFilter
     }

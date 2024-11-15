@@ -26,13 +26,13 @@ const List = () => {
     const { filterData, filterError, filterLoading, isFilterActive, handleReset, setType, filterType, setIsFilterActive } = useFilter();
     const { content, isOpen } = modalContent
     const { results } = data as IPokedexRes || {}
-    const usedData: PokemonListItem[] = filterData ? filterData.pokemon : results;
+    const usedData: PokemonListItem[] = isFilterActive ? (filterData?.pokemon || []) : results;
     const typeKey = Object.keys(color);
 
     return (
-        <div className="mx-36 my-10 p-10">
+        <>
             <div className="p-5 my-10">
-                <span>Filter by type: </span>
+                <p className="text-3xl text-center font-bold">Filter by type: </p>
                 <ul className="flex gap-5 flex-wrap mt-5 w-full justify-center items-center">
                     {
                         typeKey.map((val, index) => (
@@ -49,13 +49,18 @@ const List = () => {
                     <li className={`px-5 cursor-pointer rounded-full black transition-all py-1 w-auto min-w-[4rem] text-center bg-black text-white`} onClick={handleReset}>Reset</li>
                 </ul>
             </div>
-            <ModalPokemon isOpen={isOpen} content={content} handleCloseModal={handleCloseModal} />
-            <div className="flex gap-5 flex-wrap justify-center w-full">
-                {
-                    filterLoading ? (
-                        <Loading />
-                    ) : usedData.length && !error && !filterError ? (
-                        usedData.map((val, index) => (
+            <div className="mx-36 my-10 p-10">
+
+                <ModalPokemon isOpen={isOpen} content={content} handleCloseModal={handleCloseModal} />
+                <div className="flex gap-5 flex-wrap justify-center w-full">
+                    {
+                        (filterLoading || (loading && !usedData.length)) && (
+                            <Loading />
+                        )
+                    }
+
+                    {
+                        usedData.length ? usedData.map((val, index) => (
                             <PokedexCard
                                 name={"name" in val ? val.name : val.pokemon.name}
                                 key={index}
@@ -63,32 +68,32 @@ const List = () => {
                                 pokeIndex={getPokemonIndex("url" in val ? val.url : val.pokemon.url)}
                                 handleModal={handleModal}
                             />
-                        ))
-                    ) : null
-                }
+                        )) : !filterLoading && !loading && !error && !filterError && <span className="font-bold text-5xl">No Pokémon data</span>
+                    }
 
+                    {
+                        (filterError || error) && Boolean(!usedData.length) &&
+                        (
+                            <span className="font-bold text-5xl">Failed to fetch Pokémon data</span>
+                        )
+
+                    }
+                </div>
                 {
-                    filterError && error &&
-                    (
-                        <span className="font-bold text-5xl">Failed to fetch Pokémon data</span>
+                    results?.length >= 20 && !isFilterActive && !error && !filterError && (
+                        <div className="flex justify-center items-center mt-10 cursor-pointer" ref={lastElementFetch} onClick={() => {
+                            if (!loading) {
+                                handleFetchMore()
+                            }
+                        }}>
+                            {
+                                loading ? <Loading /> : 'See More...'
+                            }
+                        </div>
                     )
-
                 }
             </div>
-            {
-                results?.length >= 20 && !isFilterActive && !error && !filterError && (
-                    <div className="flex justify-center items-center mt-10 cursor-pointer" ref={lastElementFetch} onClick={() => {
-                        if (!loading) {
-                            handleFetchMore()
-                        }
-                    }}>
-                        {
-                            loading ? <Loading /> : 'See More...'
-                        }
-                    </div>
-                )
-            }
-        </div>
+        </>
     )
 }
 

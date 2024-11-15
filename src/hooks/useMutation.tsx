@@ -11,13 +11,6 @@ const useMutation = (url = '') => {
         if (!abortController) {
             setAbortController(new AbortController());
         }
-        return () => {
-            abortController?.abort();
-            setLoading(false);
-            setData(null);
-            setError(null);
-
-        };
     }, [abortController]);
 
     const hitApi = useCallback(

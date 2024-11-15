@@ -116,7 +116,7 @@ const usePokedex = () => {
     }, [])
 
     useEffect(() => {
-        if (pokedexData) {
+        if (pokedexData && !error) {
             setData((prev) => ({
                 ...pokedexData,
                 results: [
@@ -126,7 +126,7 @@ const usePokedex = () => {
             }))
             resetPokedexData();
         }
-    }, [pokedexData, resetPokedexData])
+    }, [pokedexData, resetPokedexData, error])
 
     return { data, error, loading, offset, modalContent, handleModal, handleCloseModal, setOffset, handleFetchMore, observe, lastElementFetch, handleRefreshData }
 }
